@@ -1,9 +1,9 @@
 import * as React from "react";
 import { BlockWithAlignableContents } from "@lexical/react/LexicalBlockWithAlignableContents";
 
-import { LinkPreviewT } from "./types";
+import { PreviewBoxProps } from "./types";
 
-export const LinkPreviewBox: React.FunctionComponent<LinkPreviewT> = ({
+export const LinkPreviewBox: React.FunctionComponent<PreviewBoxProps> = ({
   className,
   nodeKey,
   url,

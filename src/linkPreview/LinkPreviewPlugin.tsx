@@ -8,18 +8,18 @@ import {
 } from "lexical";
 
 import { $createLinkPreviewNode, LinkPreviewNode } from "./LinkPreviewNode";
-import { ResOfWebsite } from "./types";
+import { PageMetaData } from "./types";
 
 export const LinkPreviewPlugin = ({
   showLink,
-  fetchingFunction,
+  fetchDataForPreview,
 }: {
   showLink: boolean;
-  fetchingFunction: (link: string) => Promise<ResOfWebsite>;
+  fetchDataForPreview: (link: string) => Promise<PageMetaData>;
 }): null => {
   const [editor] = useLexicalComposerContext();
   const result = [{ url: "", title: "", description: "", images: ["", ""] }];
-  let alreadyHaveIt: ResOfWebsite | undefined;
+  let alreadyFetched: PageMetaData | undefined;
 
   if (!editor.hasNodes([LinkPreviewNode])) {
     throw new Error("LinkPreviewNode is not registered in the editor");
@@ -39,16 +39,16 @@ export const LinkPreviewPlugin = ({
           if (urlRegexp.test(pastedItem)) {
             const createPreview = async () => {
               try {
-                await fetchingFunction(pastedItem).then((res) => {
-                  alreadyHaveIt = result.find(
+                await fetchDataForPreview(pastedItem).then((res) => {
+                  alreadyFetched = result.find(
                     (website) => res.url === website.url
                   );
-                  if (!alreadyHaveIt) {
+                  if (!alreadyFetched) {
                     result.unshift(res);
                   }
                 });
 
-                if (!alreadyHaveIt) {
+                if (!alreadyFetched) {
                   editor.update(() => {
                     if (showLink) {
                       $getRoot()
@@ -83,7 +83,7 @@ export const LinkPreviewPlugin = ({
     return () => {
       removeListener();
     };
-  }, [editor, fetchingFunction]);
+  }, [editor, fetchDataForPreview]);
 
   return null;
 };

@@ -10,12 +10,12 @@ import {
 import React from "react";
 import { DecoratorBlockNode } from "@lexical/react/LexicalDecoratorBlockNode";
 import { LinkPreviewBox } from "./LinkPreviewBox";
-import { ResOfWebsite } from "./types";
+import { PageMetaData } from "./types";
 
 export type SerializedLinkPreviewNode = Spread<
   {
     url: string;
-    res: ResOfWebsite;
+    res: PageMetaData;
     format: ElementFormatType;
   },
   SerializedLexicalNode
@@ -24,11 +24,11 @@ export type SerializedLinkPreviewNode = Spread<
 export class LinkPreviewNode extends DecoratorBlockNode {
   __url: string;
 
-  __res: ResOfWebsite;
+  __res: PageMetaData;
 
   constructor(
     url: string,
-    res: ResOfWebsite,
+    res: PageMetaData,
     format?: ElementFormatType,
     key?: NodeKey
   ) {
@@ -80,7 +80,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     return this.getLatest().__url;
   }
 
-  getRes(): ResOfWebsite {
+  getRes(): PageMetaData {
     return this.getLatest().__res;
   }
 
@@ -111,7 +111,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
 
 export function $createLinkPreviewNode(
   url: string,
-  res: ResOfWebsite
+  res: PageMetaData
 ): LinkPreviewNode {
   return new LinkPreviewNode(url, res);
 }

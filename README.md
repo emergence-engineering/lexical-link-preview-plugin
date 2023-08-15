@@ -1,4 +1,4 @@
-# lexical-link-preview-react
+# lexical-link-preview-plugin
 
 ![made by Emergence Engineering](https://emergence-engineering.com/ee-logo.svg)
 
@@ -23,10 +23,10 @@ Try it out at http://emergence-engineering.com/blog/lexical-link-preview
 
 ## How to use?
 
-1. **Installation**: Install the plugin from your preferred package manager. For example, using npm, run the following command: `npm i -S lexical-link-preview-react`
+1. **Installation**: Install the plugin from your preferred package manager. For example, using npm, run the following command: `npm i -S lexical-link-preview-plugin`
 2. **Import**: Import the node and the plugin into your project. 
 ```typescript
-import { LinkPreviewNode, LinkPreviewPlugin } from "lexical-link-preview-react";
+import { LinkPreviewNode, LinkPreviewPlugin } from "lexical-link-preview-plugin";
 ```
 
 3. Don't forget to include the classname in your theme config:  
@@ -61,13 +61,35 @@ You can use your custom css to style the preview, here is an example (which is t
 5. Initialize the editor with the plugin
 
    ```typescript
+    import { LinkPreviewNode, LinkPreviewPlugin } from "lexical-link-preview-react"
+    
+    const initialconfig = {
+        namespace: "yourEditor",
+        theme: {linkPreviewContainer: "linkPreviewContainer"},
+        onError,
+        nodes: [LinkPreviewNode]
+    }
+   
+   const fetchingFunction = async (link: string) => {
+          const data = await fetch("/api/link-preview", {
+            method: "POST",
+            body: JSON.stringify({
+              link,
+            }),
+          });
+          const {
+            data: { url, title, description, images },
+          } = await data.json();
+          return { url, title, description, images };
+    };
+   
     const Editor = (): JSX.Element => {
         return (
          <LexicalComposer initialConfig={initialConfig}>
             
             <LinkPreviewPlugin
                 showLink={false}
-                fetchingFunction={fetchingFunction}
+                fetchDataForPreview={fetchingFunction}
             />
    
             <RichTextPlugin
@@ -87,7 +109,7 @@ You can use your custom css to style the preview, here is an example (which is t
     - if false, inserts the preview as an inline-block element and nothing else
       
 
-   - `fetchingFunction`: `(link: string) => Promise<{url: string, title: string, description: string, images: string[]}>` a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes or just using `link-preview-js` library on your custom backend
+   - `fetchDataForPreview`: `(link: string) => Promise<{url: string, title: string, description: string, images: string[]}>` a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes or just using `link-preview-js` library on your custom backend
 
        ```typescript
        import type { NextApiRequest, NextApiResponse } from "next";
@@ -136,7 +158,7 @@ You can use your custom css to style the preview, here is an example (which is t
 
 ## Fetching preview data
 
-**this does not happen automatically**, you need to handle it yourself by providing the `fetchingFunction` callback function
+**this does not happen automatically**, you need to handle it yourself by providing the `fetchDataForPreview` callback function
 
 - this usually requires a backend using a 3rd party library like `link-preview-js`
 - you can use `linkpreview.net` API endpoint to fetch your preview data from the frontend
