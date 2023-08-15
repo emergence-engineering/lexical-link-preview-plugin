@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import {
   EditorConfig,
   ElementFormatType,
@@ -8,20 +9,8 @@ import {
 } from "lexical";
 import React from "react";
 import { DecoratorBlockNode } from "@lexical/react/LexicalDecoratorBlockNode";
-import {LinkPreviewBox} from "./LinkPreviewBox";
-
-export type LinkPreviewT = {
-  className: Readonly<{
-    base: string;
-    focus: string;
-  }>;
-  nodeKey: NodeKey;
-  url: string;
-  res: ResOfWebsite;
-  onError?: (error: string) => void;
-  loadingComponent?: JSX.Element | string;
-  onLoad?: () => void;
-};
+import { LinkPreviewBox } from "./LinkPreviewBox";
+import { ResOfWebsite } from "./types";
 
 export type SerializedLinkPreviewNode = Spread<
   {
@@ -32,37 +21,37 @@ export type SerializedLinkPreviewNode = Spread<
   SerializedLexicalNode
 >;
 
-export type ResOfWebsite = {
-  url: string;
-  title: string;
-  description: string;
-  images: Array<string>;
-};
-
 export class LinkPreviewNode extends DecoratorBlockNode {
   __url: string;
+
   __res: ResOfWebsite;
+
   constructor(
     url: string,
     res: ResOfWebsite,
     format?: ElementFormatType,
-    key?: NodeKey,
+    key?: NodeKey
   ) {
     super(format, key);
     this.__url = url;
+
     this.__res = res;
-    if (format) this.__format = format;
+
+    if (format) {
+      this.__format = format;
+    }
   }
 
   static getType() {
     return "LinkPreviewNode";
   }
+
   static clone(node: LinkPreviewNode): LinkPreviewNode {
     return new LinkPreviewNode(
       node.__url,
       node.__res,
       node.__format,
-      node.__key,
+      node.__key
     );
   }
 
@@ -82,6 +71,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
       ></LinkPreviewBox>
     );
   }
+
   updateDOM(): false {
     return false;
   }
@@ -111,7 +101,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
   }
 
   static importJSON(
-    serializedNode: SerializedLinkPreviewNode,
+    serializedNode: SerializedLinkPreviewNode
   ): LinkPreviewNode {
     const node = $createLinkPreviewNode(serializedNode.url, serializedNode.res);
     node.setFormat(serializedNode.format);
@@ -121,7 +111,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
 
 export function $createLinkPreviewNode(
   url: string,
-  res: ResOfWebsite,
+  res: ResOfWebsite
 ): LinkPreviewNode {
   return new LinkPreviewNode(url, res);
 }

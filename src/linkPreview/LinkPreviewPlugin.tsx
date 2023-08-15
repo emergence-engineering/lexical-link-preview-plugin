@@ -6,11 +6,9 @@ import {
   COMMAND_PRIORITY_CRITICAL,
   PASTE_COMMAND,
 } from "lexical";
-import {
-  $createLinkPreviewNode,
-  LinkPreviewNode,
-  ResOfWebsite,
-} from "./LinkPreviewNode";
+
+import { $createLinkPreviewNode, LinkPreviewNode } from "./LinkPreviewNode";
+import { ResOfWebsite } from "./types";
 
 export const LinkPreviewPlugin = ({
   showLink,
@@ -23,8 +21,9 @@ export const LinkPreviewPlugin = ({
   const result = [{ url: "", title: "", description: "", images: ["", ""] }];
   let alreadyHaveIt: ResOfWebsite | undefined;
 
-  if (!editor.hasNodes([LinkPreviewNode]))
-    throw new Error("LinkPreviewNode" + " is not registered in the editor");
+  if (!editor.hasNodes([LinkPreviewNode])) {
+    throw new Error("LinkPreviewNode is not registered in the editor");
+  }
 
   const urlRegexp =
     /((http(s)?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;
@@ -33,7 +32,7 @@ export const LinkPreviewPlugin = ({
     const removeListener = editor.registerCommand(
       PASTE_COMMAND,
       (event: ClipboardEvent) => {
-        const clipboardData = event.clipboardData;
+        const { clipboardData } = event;
         const pastedItem = clipboardData?.getData("text");
 
         if (typeof pastedItem === "string") {
@@ -42,7 +41,7 @@ export const LinkPreviewPlugin = ({
               try {
                 await fetchingFunction(pastedItem).then((res) => {
                   alreadyHaveIt = result.find(
-                    (website) => res.url === website.url,
+                    (website) => res.url === website.url
                   );
                   if (!alreadyHaveIt) {
                     result.unshift(res);
@@ -64,8 +63,9 @@ export const LinkPreviewPlugin = ({
                   });
                 }
               } catch (err) {
+                /* eslint-disable */
                 alert(
-                  `Cannot show the preview of this link (${pastedItem}) as it is either not correct or is redirecting to another URL. \n\nTips: Try to leave the 'www.' part and use 'https://' instead of 'http://'`,
+                  `Cannot show the preview of this link (${pastedItem}) as it is either not correct or is redirecting to another URL. \n\nTips: Try to leave the 'www.' part and use 'https://' instead of 'http://'`
                 );
               }
             };
@@ -77,11 +77,13 @@ export const LinkPreviewPlugin = ({
 
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL,
+      COMMAND_PRIORITY_CRITICAL
     );
+
     return () => {
       removeListener();
     };
   }, [editor, fetchingFunction]);
+
   return null;
 };

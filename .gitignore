@@ -29,3 +29,5 @@ yarn-error.log*
 
 dist
 yalc.lock
+.log
+package-lock.json

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BlockWithAlignableContents } from "@lexical/react/LexicalBlockWithAlignableContents";
-import { LinkPreviewT } from "./LinkPreviewNode";
+
+import { LinkPreviewT } from "./types";
 
 export const LinkPreviewBox: React.FunctionComponent<LinkPreviewT> = ({
   className,
@@ -22,4 +23,3 @@ export const LinkPreviewBox: React.FunctionComponent<LinkPreviewT> = ({
     </BlockWithAlignableContents>
   );
 };
-
