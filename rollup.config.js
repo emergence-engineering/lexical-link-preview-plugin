@@ -16,7 +16,7 @@ export default {
         { file: pkg.module, format: "esm", sourcemap: true },
     ],
     // external: ["LexicalBlockWithAlignableContents.js"],
-    external: [...Object.keys(pkg.dependencies || {})],
+    // external: [...Object.keys(pkg.dependencies || {})],
     plugins: [
         resolve({
             extensions: [".js", ".jsx", ".ts", ".tsx"], // Include JSX file extension
