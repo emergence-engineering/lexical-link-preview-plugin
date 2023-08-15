@@ -33,9 +33,8 @@ import { LinkPreviewNode, LinkPreviewPlugin } from "lexical-link-preview-react";
 ```html
   linkPreviewContainer: "linkPreviewContainer",
 ```
-???????????????????????? where do I put this component to be editable?
-You can use your custom css to style the preview, here is an example(which is the actual css used by default)
 
+You can use your custom css to style the preview, here is an example (which is the actual css used by default)
 
    - basic card structure
 
@@ -88,8 +87,7 @@ You can use your custom css to style the preview, here is an example(which is th
     - if false, inserts the preview as an inline-block element and nothing else
       
 
-   - `fetchingFunction`: `(link: string) => Promise<{url: string, title: string, description: string, images: string[]}>` a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes
-     ??????????????? or just using `link-preview-js` library on your custom backend
+   - `fetchingFunction`: `(link: string) => Promise<{url: string, title: string, description: string, images: string[]}>` a function that takes a link and returns a `Promise` that resolves to the link preview data, you can easily do this using next.js API routes or just using `link-preview-js` library on your custom backend
 
        ```typescript
        import type { NextApiRequest, NextApiResponse } from "next";
