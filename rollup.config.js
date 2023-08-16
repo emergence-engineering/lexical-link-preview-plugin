@@ -4,6 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import copy from "rollup-plugin-copy";
 import css from "rollup-plugin-import-css";
 import babel from "rollup-plugin-babel";
+import excludeDependenciesFromBundle from "rollup-plugin-exclude-dependencies-from-bundle";
 
 import pkg from "./package.json";
 
@@ -13,11 +14,13 @@ export default {
     {
       file: pkg.main,
       format: "cjs",
+      sourcemap: true,
     },
-    { file: pkg.module, format: "es" },
+    { file: pkg.module, format: "es", sourceMap: true },
   ],
   external: [...Object.keys(pkg.dependencies || {})],
   plugins: [
+    excludeDependenciesFromBundle(),
     resolve({
       extensions: [".js", ".jsx", ".ts", ".tsx"], // Include JSX file extension
     }),
