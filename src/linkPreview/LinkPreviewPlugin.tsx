@@ -1,6 +1,7 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useEffect } from "react";
 import {
+  $createParagraphNode,
   $getRoot,
   $insertNodes,
   COMMAND_PRIORITY_CRITICAL,
@@ -12,9 +13,11 @@ import { PageMetaData } from "./types";
 
 export const LinkPreviewPlugin = ({
   showLink,
+  showClosePreview,
   fetchDataForPreview,
 }: {
   showLink: boolean;
+  showClosePreview: boolean;
   fetchDataForPreview: (link: string) => Promise<PageMetaData>;
 }): null => {
   const [editor] = useLexicalComposerContext();
@@ -35,7 +38,7 @@ export const LinkPreviewPlugin = ({
         const { clipboardData } = event;
         const pastedItem = clipboardData?.getData("text");
 
-        if (typeof pastedItem === "string") {
+        if (pastedItem) {
           if (urlRegexp.test(pastedItem)) {
             const createPreview = async () => {
               try {
@@ -53,10 +56,21 @@ export const LinkPreviewPlugin = ({
                     if (showLink) {
                       $getRoot()
                         .getLastChild()
-                        ?.append($createLinkPreviewNode(pastedItem, result[0]));
+                        ?.append(
+                          $createLinkPreviewNode(
+                            pastedItem,
+                            result[0],
+                            showClosePreview
+                          )
+                        );
                     } else {
                       $insertNodes([
-                        $createLinkPreviewNode(pastedItem, result[0]),
+                        $createLinkPreviewNode(
+                          pastedItem,
+                          result[0],
+                          showClosePreview
+                        ),
+                        $createParagraphNode(),
                       ]);
                     }
                     return true;
@@ -74,7 +88,6 @@ export const LinkPreviewPlugin = ({
           }
           return false;
         }
-
         return false;
       },
       COMMAND_PRIORITY_CRITICAL

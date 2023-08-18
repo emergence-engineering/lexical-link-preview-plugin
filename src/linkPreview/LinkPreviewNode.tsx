@@ -16,6 +16,7 @@ export type SerializedLinkPreviewNode = Spread<
   {
     url: string;
     res: PageMetaData;
+    showClosePreview: boolean;
     format: ElementFormatType;
   },
   SerializedLexicalNode
@@ -26,9 +27,12 @@ export class LinkPreviewNode extends DecoratorBlockNode {
 
   __res: PageMetaData;
 
+  __showClosePreview: boolean;
+
   constructor(
     url: string,
     res: PageMetaData,
+    showClosePreview: boolean,
     format?: ElementFormatType,
     key?: NodeKey
   ) {
@@ -36,6 +40,8 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     this.__url = url;
 
     this.__res = res;
+
+    this.__showClosePreview = showClosePreview;
 
     if (format) {
       this.__format = format;
@@ -50,6 +56,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     return new LinkPreviewNode(
       node.__url,
       node.__res,
+      node.__showClosePreview,
       node.__format,
       node.__key
     );
@@ -67,8 +74,17 @@ export class LinkPreviewNode extends DecoratorBlockNode {
         className={className}
         url={this.__url}
         res={this.__res}
+        showClosePreview={this.__showClosePreview}
         nodeKey={this.getKey()}
-      ></LinkPreviewBox>
+        onClose={() => {
+          editor.update(() => {
+            if (this.remove) {
+              this.remove();
+            }
+            return true;
+          });
+        }}
+      />
     );
   }
 
@@ -84,6 +100,10 @@ export class LinkPreviewNode extends DecoratorBlockNode {
     return this.getLatest().__res;
   }
 
+  getShowClosePreview(): boolean {
+    return this.__showClosePreview;
+  }
+
   setFormat(format: ElementFormatType): void {
     const self = this.getWritable();
     self.__format = format;
@@ -95,6 +115,7 @@ export class LinkPreviewNode extends DecoratorBlockNode {
       format: this.__format || "",
       url: this.getURL(),
       res: this.getRes(),
+      showClosePreview: this.getShowClosePreview(),
       type: "link-preview",
       version: 1,
     };
@@ -103,7 +124,11 @@ export class LinkPreviewNode extends DecoratorBlockNode {
   static importJSON(
     serializedNode: SerializedLinkPreviewNode
   ): LinkPreviewNode {
-    const node = $createLinkPreviewNode(serializedNode.url, serializedNode.res);
+    const node = $createLinkPreviewNode(
+      serializedNode.url,
+      serializedNode.res,
+      serializedNode.showClosePreview
+    );
     node.setFormat(serializedNode.format);
     return node;
   }
@@ -111,7 +136,8 @@ export class LinkPreviewNode extends DecoratorBlockNode {
 
 export function $createLinkPreviewNode(
   url: string,
-  res: PageMetaData
+  res: PageMetaData,
+  showClosePreview: boolean
 ): LinkPreviewNode {
-  return new LinkPreviewNode(url, res);
+  return new LinkPreviewNode(url, res, showClosePreview);
 }

@@ -15,7 +15,8 @@ export type PreviewBoxProps = {
   nodeKey: NodeKey;
   url: string;
   res: PageMetaData;
+  showClosePreview: boolean;
   onError?: (error: string) => void;
   loadingComponent?: JSX.Element | string;
-  onLoad?: () => void;
+  onClose: () => void;
 };

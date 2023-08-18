@@ -27,6 +27,7 @@
     border: 2px solid lightgray;
     border-radius: 10px;
     cursor: pointer;
+    position: relative;
 }
 
 .previewImage {
@@ -62,4 +63,18 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+}
+
+.closePreview {
+    position: absolute;
+    top: 0;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.closePreview:hover{
+    color: darkgray;
+    font-weight: 700;
 }
