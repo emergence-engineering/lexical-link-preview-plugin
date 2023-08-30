@@ -1,7 +1,7 @@
 {
-  "name": "lexical-link-preview-plugin",
+  "name": "@emergence-engineering/lexical-link-preview-plugin",
   "version": "1.0.0",
-  "description": "A link preview plugin for Lexical",
+  "description": "A link preview plugin for Lexical editor",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "dist/index.es.js",
@@ -16,9 +16,8 @@
   },
   "keywords": [
     "lexical",
-    "link",
-    "preview",
-    "react"
+    "link preview",
+    "plugin"
   ],
   "author": "Emergence Engineering",
   "license": "MIT",
