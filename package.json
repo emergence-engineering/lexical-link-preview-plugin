@@ -1,6 +1,6 @@
 {
   "name": "@emergence-engineering/lexical-link-preview-plugin",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A link preview plugin for Lexical editor",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
