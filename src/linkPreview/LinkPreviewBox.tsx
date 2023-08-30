@@ -12,8 +12,8 @@ export const LinkPreviewBox: React.FunctionComponent<PreviewBoxProps> = ({
 }): JSX.Element => {
   return (
     <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
-      <a href={url} target="_blank">
-        <div className="previewBox">
+      <div className="previewBox">
+        <a href={url} target="_blank">
           <img className="previewImage" src={res.images[0]} alt="" />
           <div className="previewTextWrapper">
             <div className="previewTitle">{res.title}</div>
@@ -30,8 +30,8 @@ export const LinkPreviewBox: React.FunctionComponent<PreviewBoxProps> = ({
               ×
             </div>
           )}
-        </div>
-      </a>
+        </a>
+      </div>
     </BlockWithAlignableContents>
   );
 };
