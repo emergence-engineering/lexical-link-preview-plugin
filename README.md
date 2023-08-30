@@ -1,26 +1,22 @@
 # lexical-link-preview-plugin
 
-![made by Emergence Engineering](https://emergence-engineering.com/ee-logo.svg)
+[![made by Emergence Engineering](https://emergence-engineering.com/ee-logo.svg)](https://emergence-engineering.com)
 
 
 [**Made by Emergence-Engineering**](https://emergence-engineering.com/)
 
 ## Features
 
-![feature-gif](https://emergence-engineering.com/lexical-link-preview.gif)
-
-
 This easy-to-use plugin for lexical editors enhances the user experience by allowing them to see the page behind the link. 
 
 The plugin takes three properties that allow you to:
 - set whether to display the inserted link as well, next to the preview, 
-- choose whether or not you want to have a close button for the preview, and
+- choose whether you want to have a close button for the preview, and
 - use **your async callback function** to retrieve metadata from the site 
 
 The plugin applies the data to the preview box and shows you the name, the description and, if available, the image of the website.
 You can easily customize the preview - use the popular 'card' design, stick to the 'bookmark' style, or create your own - whichever fits better to your UI.
 
-Try it out at http://emergence-engineering.com/blog/lexical-link-preview
 
 ## How to use?
 
@@ -32,7 +28,7 @@ import { LinkPreviewNode, LinkPreviewPlugin } from "lexical-link-preview-plugin"
 
 3. Don't forget to include the classname in your theme config:  
 ```html
-  linkPreviewContainer: "linkPreviewContainer",
+    theme: {linkPreviewContainer: "linkPreviewContainer",}
 ```
 
 You can use your custom css to style the preview, here is an example (which is the actual css used by default)
@@ -41,8 +37,9 @@ You can use your custom css to style the preview, here is an example (which is t
 
        ```html
        <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
-        <a href={url} target={"_blank"}>
             <div className={"previewBox"}>
+             <a href={url} target={"_blank"}>
+
                 <img className={"previewImage"} src={res.images[0]} alt={""} />
                 <div className={"previewText"}>
                     <div className={"previewTitle"}>{res.title}</div>
@@ -57,8 +54,8 @@ You can use your custom css to style the preview, here is an example (which is t
                       }}
                     >×</div>
                 )}
-            </div>
-        </a>
+            </a>
+           </div>
         </BlockWithAlignableContents>
        ```
 

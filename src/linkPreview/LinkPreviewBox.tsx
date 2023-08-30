@@ -12,8 +12,8 @@ export const LinkPreviewBox: React.FunctionComponent<PreviewBoxProps> = ({
 }): JSX.Element => {
   return (
     <BlockWithAlignableContents className={className} nodeKey={nodeKey}>
-      <div className="previewBox">
-        <a href={url} target="_blank">
+      <div>
+        <a href={url} target="_blank" className="previewBox">
           <img className="previewImage" src={res.images[0]} alt="" />
           <div className="previewTextWrapper">
             <div className="previewTitle">{res.title}</div>
